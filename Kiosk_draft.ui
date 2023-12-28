@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>618</width>
+    <height>609</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="PaymentButton">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>450</y>
+     <width>180</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>결제</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="CancelButton">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>530</y>
+     <width>180</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>장바구니 초기화</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_menu1">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>141</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>menu1</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_menu2">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>10</y>
+     <width>141</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>menu2</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_menu3">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>10</y>
+     <width>141</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>menu3</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_menu4">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>10</y>
+     <width>141</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>menu4</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_menu5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>230</y>
+     <width>141</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>menu5</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_menu6">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>230</y>
+     <width>141</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>menu6</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_menu7">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>230</y>
+     <width>141</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>menu7</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_menu8">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>230</y>
+     <width>141</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>menu8</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="CartList">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>450</y>
+     <width>401</width>
+     <height>141</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
