@@ -12,8 +12,32 @@ class WindowClass(QMainWindow, form_class) :
         super().__init__()
         self.setupUi(self)
 
-        self.pushButton_menu1.clicked.connect(self.pushButton_menu1_clicked)
-##    def pushButton_menu1_clicked(self) :
+        self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000 }
+        for i in range(1, 5):
+            button_object_name = f"Button_menu{i}"
+            menu_button = getattr(self, button_object_name, None)
+            if menu_button:
+                menu_button.clicked.connect(self.create_menu_button_handler(menu_button))
+            else:
+                print(f"Button '{button_object_name}' not found!")
+
+    def create_menu_button_handler(self, menu_button) :
+        def handler():
+            cart_list_widget = self.findChild(QListWidget, 'CartList')
+            menu_text = menu_button.text()
+            price = self.menu.get(menu_text, 0)  # 메뉴의 가격 가져오기
+            item_text = f"{menu_text} - {price}원"
+            item = QListWidgetItem(item_text)
+            cart_list_widget.addItem(item)
+        return handler
+
+    # def Button_menu1_clicked(self) :
+    #     Button_menu1 = self.Button_menu1.objectName()
+    #     cart_list_widget = self.findChild(QListWidget, 'CartList')
+    #     item = QListWidgetItem(Button_menu1)
+    #     cart_list_widget.addItem(item)
+
+
 
 if __name__ == "__main__" :
     #QApplication : 프로그램을 실행시켜주는 클래스

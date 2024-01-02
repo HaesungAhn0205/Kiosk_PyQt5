@@ -39,7 +39,7 @@
     <string>장바구니 초기화</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_menu1">
+  <widget class="QPushButton" name="Button_menu1">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -49,10 +49,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>menu1</string>
+    <string>김밥</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_menu2">
+  <widget class="QPushButton" name="Button_menu2">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -62,10 +62,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>menu2</string>
+    <string>라면</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_menu3">
+  <widget class="QPushButton" name="Button_menu3">
    <property name="geometry">
     <rect>
      <x>310</x>
@@ -75,10 +75,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>menu3</string>
+    <string>떡볶이</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_menu4">
+  <widget class="QPushButton" name="Button_menu4">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -88,10 +88,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>menu4</string>
+    <string>순대</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_menu5">
+  <widget class="QPushButton" name="Button_menu5">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -104,7 +104,7 @@
     <string>menu5</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_menu6">
+  <widget class="QPushButton" name="Button_menu6">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -117,7 +117,7 @@
     <string>menu6</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_menu7">
+  <widget class="QPushButton" name="Button_menu7">
    <property name="geometry">
     <rect>
      <x>310</x>
@@ -130,7 +130,7 @@
     <string>menu7</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_menu8">
+  <widget class="QPushButton" name="Button_menu8">
    <property name="geometry">
     <rect>
      <x>460</x>
