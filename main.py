@@ -31,14 +31,6 @@ class WindowClass(QMainWindow, form_class) :
             cart_list_widget.addItem(item)
         return handler
 
-    # def Button_menu1_clicked(self) :
-    #     Button_menu1 = self.Button_menu1.objectName()
-    #     cart_list_widget = self.findChild(QListWidget, 'CartList')
-    #     item = QListWidgetItem(Button_menu1)
-    #     cart_list_widget.addItem(item)
-
-
-
 if __name__ == "__main__" :
     #QApplication : 프로그램을 실행시켜주는 클래스
     app = QApplication(sys.argv)
