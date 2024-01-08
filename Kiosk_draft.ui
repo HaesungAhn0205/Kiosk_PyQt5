@@ -7,30 +7,30 @@
     <x>0</x>
     <y>0</y>
     <width>742</width>
-    <height>992</height>
+    <height>1183</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="PaymentButton">
+  <widget class="QPushButton" name="TotalSum_Button">
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>650</y>
+     <y>620</y>
      <width>261</width>
      <height>131</height>
     </rect>
    </property>
    <property name="text">
-    <string>결제</string>
+    <string>장바구니 합산</string>
    </property>
   </widget>
   <widget class="QPushButton" name="CancelButton">
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>800</y>
+     <y>810</y>
      <width>261</width>
      <height>131</height>
     </rect>
@@ -147,10 +147,33 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>640</y>
+     <y>620</y>
      <width>421</width>
      <height>321</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="OrderList">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>960</y>
+     <width>421</width>
+     <height>201</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Payment_Button">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>960</y>
+     <width>261</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>최종 주문</string>
    </property>
   </widget>
  </widget>
