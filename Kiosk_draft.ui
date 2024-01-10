@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="TotalSum_Button">
+  <widget class="QPushButton" name="Total_Button">
    <property name="geometry">
     <rect>
      <x>460</x>
