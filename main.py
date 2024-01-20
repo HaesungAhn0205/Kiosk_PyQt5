@@ -30,7 +30,16 @@ class WindowClass(QMainWindow, form_class) :
             cart_list_widget = self.findChild(QListWidget, 'CartList')
             menu_text = menu_button.text()
             price = self.menu.get(menu_text, 0)  # 메뉴의 가격 가져오기
-            item_text = f"{menu_text} - {price}원"
+
+            for i in range(cart_list_widget.count()):
+                item = cart_list_widget.item(i)
+                if item.text().startswith(menu_text):
+                    count = int(item.text().split(' - ')[1].split('개')[0]) + 1
+                    new_item_text = f"{menu_text} - {count}개 - {price * count}원"
+                    item.setText(new_item_text)
+                    return
+
+            item_text = f"{menu_text} - 1개 - {price}원"
             item = QListWidgetItem(item_text)
             cart_list_widget.addItem(item)
 
@@ -38,7 +47,20 @@ class WindowClass(QMainWindow, form_class) :
 
     def Total_button_Function(self) :
         cart_list_widget = self.findChild(QListWidget, 'CartList')
-        Order_list_widget = self.findChild(QListWidget, 'OrderList')
+        order_list_widget = self.findChild(QListWidget, 'OrderList')
+
+        total_price = 0
+
+        for index in range(cart_list_widget.count()):
+            item = cart_list_widget.item(index)
+            order_list_widget.addItem(item.text())
+
+            price = int(item.text().split(' - ')[2].replace('원', ''))
+            total_price += price
+
+        total_price_text = f"총 가격 - {total_price}원"
+        total_price_item = QListWidgetItem(total_price_text)
+        order_list_widget.addItem(total_price_item)
 
         self.findChild(QListWidget, 'CartList').clear()
 
