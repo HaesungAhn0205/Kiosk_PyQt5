@@ -101,7 +101,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>menu5</string>
+    <string>튀김</string>
    </property>
   </widget>
   <widget class="QPushButton" name="Button_menu6">
@@ -114,7 +114,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>menu6</string>
+    <string>어묵</string>
    </property>
   </widget>
   <widget class="QPushButton" name="Button_menu7">
@@ -127,7 +127,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>menu7</string>
+    <string>콜라</string>
    </property>
   </widget>
   <widget class="QPushButton" name="Button_menu8">
@@ -140,7 +140,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>menu8</string>
+    <string>사이다</string>
    </property>
   </widget>
   <widget class="QListWidget" name="CartList">
