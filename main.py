@@ -11,13 +11,13 @@ class WindowClass(QMainWindow, form_class) :
         super().__init__()
         self.setupUi(self)
 
-        self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000 }
+        self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000, '튀김': 4000, '어묵': 1000, '콜라': 1500, '사이다': 1500 }
         self.cart_items = [] #장바구니에 각 메뉴의 가격과 개수를 저장하는 리스트
         self.order_items = []  #최종 주문내역에 들어갈 메뉴, 개수, 가격을 저장하는 리스트
 
         self.Total_Button.clicked.connect(self.Total_button_Function)
 
-        for i in range(1, 5):
+        for i in range(1, 9):
             button_object_name = f"Button_menu{i}"
             menu_button = getattr(self, button_object_name, None)
             if menu_button:
