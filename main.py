@@ -53,7 +53,7 @@ class WindowClass(QMainWindow, form_class) :
 
         for index in range(cart_list_widget.count()):
             item = cart_list_widget.item(index)
-            order_list_widget.addItem(item.text())
+            # order_list_widget.addItem(item.text())  주석처리하면 주문내역에 총 가격만 뜸
 
             price = int(item.text().split(' - ')[2].replace('원', ''))
             total_price += price
@@ -62,7 +62,7 @@ class WindowClass(QMainWindow, form_class) :
         total_price_item = QListWidgetItem(total_price_text)
         order_list_widget.addItem(total_price_item)
 
-        self.findChild(QListWidget, 'CartList').clear()
+        # self.findChild(QListWidget, 'CartList').clear()  장바구니 내용 삭제
 
 if __name__ == "__main__" :
     #QApplication : 프로그램을 실행시켜주는 클래스
