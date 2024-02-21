@@ -16,6 +16,7 @@ class WindowClass(QMainWindow, form_class) :
         self.order_items = []  #최종 주문내역에 들어갈 메뉴, 개수, 가격을 저장하는 리스트
 
         self.Total_Button.clicked.connect(self.Total_button_Function)
+        self.Clear_Button.clicked.connect(self.Clear_button_Function)
 
         for i in range(1, 9):
             button_object_name = f"Button_menu{i}"
@@ -63,6 +64,10 @@ class WindowClass(QMainWindow, form_class) :
         order_list_widget.addItem(total_price_item)
 
         # self.findChild(QListWidget, 'CartList').clear()  장바구니 내용 삭제
+
+    def Clear_button_Function(self):
+        self.findChild(QListWidget, 'CartList').clear()
+        self.findChild(QListWidget, 'OrderList').clear()
 
 if __name__ == "__main__" :
     #QApplication : 프로그램을 실행시켜주는 클래스
