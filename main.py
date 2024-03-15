@@ -61,9 +61,15 @@ class WindowClass(QMainWindow, form_class):
 
         for index in range(cart_list_widget.count()):
             item = cart_list_widget.item(index)
-
             price = int(item.text().split(' - ')[2].replace('원', ''))
-            total_price += price
+            count = int(item.text().split(' - ')[1].split('개')[0])
+            total_price += price * count
+
+        for index in range(order_list_widget.count()):
+            item = order_list_widget.item(index)
+            if item.text().startswith("총 가격"):
+                order_list_widget.takeItem(index)
+                break
 
         total_price_text = f"총 가격 - {total_price}원"
         total_price_item = QListWidgetItem(total_price_text)
