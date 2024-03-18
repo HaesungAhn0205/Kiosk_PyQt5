@@ -27,13 +27,6 @@ class WindowClass(QMainWindow, form_class):
         self.Button_menu6.clicked.connect(self.create_menu_button_handler('어묵', 1000))
         self.Button_menu7.clicked.connect(self.create_menu_button_handler('콜라', 1500))
         self.Button_menu8.clicked.connect(self.create_menu_button_handler('사이다', 1500))
-        # for i in range(1, 9):
-        #     button_object_name = f"Button_menu{i}"
-        #     menu_button = getattr(self, button_object_name, None)
-        #     if menu_button:
-        #         menu_button.clicked.connect(self.create_menu_button_handler(menu_button))
-        #     else:
-        #         print(f"Button '{button_object_name}' not found!")
 
     def create_menu_button_handler(self, menu_name, price):
         def handler():
@@ -61,16 +54,15 @@ class WindowClass(QMainWindow, form_class):
 
         for index in range(cart_list_widget.count()):
             item = cart_list_widget.item(index)
+
             price = int(item.text().split(' - ')[2].replace('원', ''))
-            count = int(item.text().split(' - ')[1].split('개')[0])
-            total_price += price * count
+            total_price += price
 
         for index in range(order_list_widget.count()):
             item = order_list_widget.item(index)
             if item.text().startswith("총 가격"):
                 order_list_widget.takeItem(index)
                 break
-
         total_price_text = f"총 가격 - {total_price}원"
         total_price_item = QListWidgetItem(total_price_text)
         order_list_widget.addItem(total_price_item)
