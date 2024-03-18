@@ -4,7 +4,7 @@ from PyQt5 import uic
 
 # UI파일 연결
 form_class = uic.loadUiType("Kiosk_draft.ui")[0]
-
+#form_class = uic.loadUiType("Kiosk_final.ui")[0]
 
 # 화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QMainWindow, form_class):
