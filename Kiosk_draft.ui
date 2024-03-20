@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Cafe 성브라더스</string>
   </property>
   <widget class="QPushButton" name="Total_Button">
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>620</y>
+     <y>630</y>
      <width>261</width>
      <height>91</height>
     </rect>
@@ -147,9 +147,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>620</y>
+     <y>630</y>
      <width>421</width>
-     <height>231</height>
+     <height>221</height>
     </rect>
    </property>
   </widget>
@@ -177,6 +177,21 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>Button_menu1</tabstop>
+  <tabstop>Button_menu2</tabstop>
+  <tabstop>Button_menu3</tabstop>
+  <tabstop>Button_menu4</tabstop>
+  <tabstop>Button_menu5</tabstop>
+  <tabstop>Button_menu6</tabstop>
+  <tabstop>Button_menu7</tabstop>
+  <tabstop>Button_menu8</tabstop>
+  <tabstop>Total_Button</tabstop>
+  <tabstop>Clear_Button</tabstop>
+  <tabstop>Payment_Button</tabstop>
+  <tabstop>CartList</tabstop>
+  <tabstop>OrderList</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
