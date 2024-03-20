@@ -2,15 +2,27 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
-# UI파일 연결
+# 메인 윈도우 UI파일 연결
 form_class = uic.loadUiType("Kiosk_draft.ui")[0]
-#form_class = uic.loadUiType("Kiosk_final.ui")[0]
 
 # 화면을 띄우는데 사용되는 Class 선언
+class Second(QDialog, form_class): # 최종 주문창 ui를 불러오는 클래스
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("Kiosk_final.ui", self)
+        self.show()
+
 class WindowClass(QMainWindow, form_class):
+
+    def Second_window(self):  # Second 클래스를 호출하는 함수 정의
+        window_2 = Second()
+        window_2.exec()
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        self.Payment_Button.clicked.connect(self.Second_window) # 최종 주문 버튼을 클릭하면 Second Window 창 띄움
+        self.show()
 
         self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000, '튀김': 4000, '어묵': 1000, '콜라': 1500, '사이다': 1500}
         self.cart_items = []  # 장바구니에 각 메뉴의 가격과 개수를 저장하는 리스트
@@ -70,6 +82,8 @@ class WindowClass(QMainWindow, form_class):
     def Clear_button_Function(self):
         self.findChild(QListWidget, 'CartList').clear()
         self.findChild(QListWidget, 'OrderList').clear()
+
+
 
 
 if __name__ == "__main__":
