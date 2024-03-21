@@ -78,7 +78,7 @@ class WindowClass(QMainWindow, form_class):
         total_price_text = f"총 가격 - {total_price}원"
         total_price_item = QListWidgetItem(total_price_text)
         order_list_widget.addItem(total_price_item)
-
+#ㄷㄷㄷㄷㄷㄷ
     def Clear_button_Function(self):
         self.findChild(QListWidget, 'CartList').clear()
         self.findChild(QListWidget, 'OrderList').clear()
