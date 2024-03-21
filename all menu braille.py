@@ -8,7 +8,7 @@ data_pins = [17, 18, 27]
 latch_pin = 22
 # 클럭 핀 번호
 clock_pin = 23
-
+#dfsfdsfdfsldfl;sfdjad;fk;sdafjsjfdjf
 # GPIO 핀 모드 설정
 GPIO.setmode(GPIO.BCM)
 for pin in data_pins:
