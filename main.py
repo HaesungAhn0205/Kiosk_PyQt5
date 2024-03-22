@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-
+# 커밋 잘되는지 확인
 # 메인 윈도우 UI파일 연결
 form_class = uic.loadUiType("Kiosk_draft.ui")[0]
 
@@ -17,6 +17,7 @@ class WindowClass(QMainWindow, form_class):
     def Second_window(self):  # Second 클래스를 호출하는 함수 정의
         window_2 = Second()
         window_2.exec()
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -82,9 +83,6 @@ class WindowClass(QMainWindow, form_class):
     def Clear_button_Function(self):
         self.findChild(QListWidget, 'CartList').clear()
         self.findChild(QListWidget, 'OrderList').clear()
-
-
-
 
 if __name__ == "__main__":
     # QApplication : 프로그램을 실행시켜주는 클래스
