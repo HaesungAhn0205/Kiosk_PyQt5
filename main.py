@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-# 커밋 잘되는지 확인
+# 커밋 잘되는지 확인 왜 안되냐
 # 메인 윈도우 UI파일 연결
 form_class = uic.loadUiType("Kiosk_draft.ui")[0]
 
