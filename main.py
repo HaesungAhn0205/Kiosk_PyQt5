@@ -5,7 +5,19 @@ from PyQt5 import uic
 # 메인 윈도우 UI파일 연결
 form_class = uic.loadUiType("Kiosk_draft.ui")[0]
 
+# 화면을 띄우는데 사용되는 Class 선언
+class Second(QDialog, form_class): # 최종 주문창 ui를 불러오는 클래스
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi("Kiosk_final.ui", self)
+        self.show()
+
 class WindowClass(QMainWindow, form_class):
+
+    def Second_window(self):  # Second 클래스를 호출하는 함수 정의
+        window_2 = Second()
+        window_2.exec()
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -29,10 +41,6 @@ class WindowClass(QMainWindow, form_class):
         self.Button_menu7.clicked.connect(self.create_menu_button_handler('콜라', 1500))
         self.Button_menu8.clicked.connect(self.create_menu_button_handler('사이다', 1500))
 
-    def Second_window(self):  # Second 클래스를 호출하는 함수 정의
-        window_2 = Second()
-
-        window_2.show()
     def create_menu_button_handler(self, menu_name, price):
         def handler():
             cart_list_widget = self.findChild(QListWidget, 'CartList')
@@ -75,16 +83,6 @@ class WindowClass(QMainWindow, form_class):
     def Clear_button_Function(self):
         self.findChild(QListWidget, 'CartList').clear()
         self.findChild(QListWidget, 'OrderList').clear()
-
-class Second(QDialog, form_class): # 최종 주문창 ui를 불러오는 클래스
-    def __init__(self):
-        super().__init__()
-        self.ui = uic.loadUi("Kiosk_final.ui", self)
-
-    def final_order_list(self, cart_items):
-        final_order_list_widget = self.findChild(QListWidget, '')
-
-
 
 if __name__ == "__main__":
     # QApplication : 프로그램을 실행시켜주는 클래스
