@@ -32,40 +32,28 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QListWidget" name="second_OrderList">
+  <widget class="QLabel" name="order_complete_label">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>30</y>
-     <width>261</width>
-     <height>141</height>
+     <x>60</x>
+     <y>60</y>
+     <width>211</width>
+     <height>81</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>180</y>
-     <width>151</width>
-     <height>20</height>
-    </rect>
+   <property name="font">
+    <font>
+     <family>함초롬돋움</family>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
-    <string>이대로 주문하시겠습니까?</string>
+    <string>주문을 완료했습니다.</string>
    </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>10</y>
-     <width>56</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>최종 주문</string>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
