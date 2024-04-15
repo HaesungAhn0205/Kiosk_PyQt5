@@ -48,6 +48,34 @@ class WindowClass(QMainWindow, form_class):
         self.Button_menu7.clicked.connect(self.create_menu_button_handler('콜라', 1500))
         self.Button_menu8.clicked.connect(self.create_menu_button_handler('사이다', 1500))
 
+        self.focused_button = self.Button_menu1
+        # GPIO 핀 설정
+        GPIO.setmode(GPIO.BCM)
+        # 핀번호 임의 설정
+        GPIO.setup(19, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # GPIO 이벤트 핸들러 설정
+        GPIO.add_event_detect(19, GPIO.FALLING, callback=self.move_focus_left, bouncetime=300)
+        GPIO.add_event_detect(20, GPIO.FALLING, callback=self.move_focus_right, bouncetime=300)
+
+        # GPIO 물리버튼 코드
+
+    def move_focus_left(self, channel):
+        self.focusPreviousChild()
+
+    def move_focus_right(self, channel):
+        self.focusNextChild()
+
+        # 포커스 스타일 변경
+
+    def setFocusToButton(self, button):
+        # 현재 포커스를 가진 버튼의 스타일을 초기화
+        if hasattr(self, 'focused_button'):
+            self.focused_button.setStyleSheet("")
+
+        # 새로운 포커스를 가질 버튼의 스타일을 설정
+        button.setStyleSheet("background-color: yellow;")
+        self.focused_button = button
     def create_menu_button_handler(self, menu_name, price):
         def handler():
             cart_list_widget = self.findChild(QListWidget, 'CartList')
