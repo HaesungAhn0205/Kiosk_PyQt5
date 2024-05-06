@@ -49,14 +49,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>
-
-
-
-
-
-
-김밥</string>
+    <string>김밥</string>
    </property>
   </widget>
   <widget class="QPushButton" name="Button_menu2">
