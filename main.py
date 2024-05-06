@@ -1,6 +1,8 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+import RPi.GPIO as GPIO
+import time
 from os import environ
 
 # def suppress_qt_warnings():  #해상도별 글자크기 강제 고정함수
@@ -29,6 +31,19 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
 
+        BUTTON_PIN_payment = 17  # GPIO핀 설정
+        BUTTON_PIN_total = 18
+        BUTTON_PIN_clear = 22
+
+        GPIO.setmode(GPIO.BCM)  # BCM 핀 넘버링
+        GPIO.setup(BUTTON_PIN_payment, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # 입력으로 설정, 내부 풀업 저항 사용
+        GPIO.setup(BUTTON_PIN_total, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(BUTTON_PIN_clear, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+        GPIO.add_event_detect(BUTTON_PIN_payment, GPIO.FALLING, callback=self.payment_button_callback, bouncetime=3000) #스위치 버튼 콜백 등록
+        GPIO.add_event_detect(BUTTON_PIN_total, GPIO.FALLING, callback=self.total_button_callback, bouncetime=3000)
+        GPIO.add_event_detect(BUTTON_PIN_total, GPIO.FALLING, callback=self.clear_button_callback, bouncetime=3000)
+
         self.Payment_Button.clicked.connect(self.Second_window) # 최종 주문 버튼을 클릭하면 Second Window 창 띄움
         self.show()
 
@@ -48,6 +63,7 @@ class WindowClass(QMainWindow, form_class):
         self.Button_menu7.clicked.connect(self.create_menu_button_handler('콜라', 1500))
         self.Button_menu8.clicked.connect(self.create_menu_button_handler('사이다', 1500))
 
+#소프트웨어 버튼 구조
     def create_menu_button_handler(self, menu_name, price):
         def handler():
             cart_list_widget = self.findChild(QListWidget, 'CartList')
@@ -91,6 +107,13 @@ class WindowClass(QMainWindow, form_class):
         self.findChild(QListWidget, 'CartList').clear()
         self.findChild(QListWidget, 'OrderList').clear()
 
+#하드웨어 버튼
+    def payment_button_callback(self, channel):
+        self.Payment_Button.click()
+    def total_button_callback(self, channel):
+        self.Total_button_Function()
+    def clear_button_callback(self, channel):
+        self.Clear_button_Function()
 if __name__ == "__main__":
     # suppress_qt_warnings()
     # QApplication : 프로그램을 실행시켜주는 클래스
