@@ -16,6 +16,12 @@ class WindowClass(QMainWindow, main_window_ui):
 
         self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000, '튀김': 4000, '어묵': 1000, '콜라': 1500, '사이다': 1500}
 
+        self.menu_buttons = [
+            self.Button_menu1, self.Button_menu2, self.Button_menu3,
+            self.Button_menu4, self.Button_menu5, self.Button_menu6,
+            self.Button_menu7, self.Button_menu8
+        ]
+
         self.Button_menu1.clicked.connect(self.add_to_cart('김밥', 2000))
         self.Button_menu2.clicked.connect(self.add_to_cart('라면', 4000))
         self.Button_menu3.clicked.connect(self.add_to_cart('떡볶이', 4000))
@@ -87,8 +93,24 @@ class WindowClass(QMainWindow, main_window_ui):
             self.clear_cart()
         elif e.key() == Qt.Key_P:
             self.open_payment_window()
+        elif e.key() == Qt.Key_Up:
+            self.focus_previous_menu_button()
+        elif e.key() == Qt.Key_Down:
+            self.focus_next_menu_button()
+        elif e.key() == Qt.Key_Return:  # 엔터키
+            self.press_current_button()
 
+    def focus_previous_menu_button(self):
+        self.focusNextChild()
 
+    def focus_next_menu_button(self):
+        self.focusPreviousChild()
+
+    def press_current_button(self):
+        """현재 포커스된 버튼을 클릭합니다."""
+        focused_widget = self.focusWidget()
+        if isinstance(focused_widget, QPushButton):
+            focused_widget.click()
 class SecondWindow(QDialog, second_window_ui): # 최종 주문창 ui를 불러오는 클래스
     def __init__(self):
         super().__init__()
