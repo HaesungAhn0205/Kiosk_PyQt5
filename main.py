@@ -17,18 +17,26 @@ class WindowClass(QMainWindow, main_window_ui):
 
         self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000, '튀김': 4000, '어묵': 1000, '콜라': 1500, '사이다': 1500}
 
-        BUTTON_PIN_payment = 17  # GPIO핀 설정
-        BUTTON_PIN_total = 18
-        BUTTON_PIN_clear = 27
+        BUTTON_PIN_payment = 14  # GPIO핀 설정
+        BUTTON_PIN_total = 15
+        BUTTON_PIN_clear = 18
+        BUTTON_PIN_prev = 22
+        BUTTON_PIN_next = 27
+        BUTTON_PIN_press = 17
 
         GPIO.setmode(GPIO.BCM)  # BCM 핀 넘버링
         GPIO.setup(BUTTON_PIN_payment, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # 입력으로 설정, 내부 풀업 저항 사용
         GPIO.setup(BUTTON_PIN_total, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(BUTTON_PIN_clear, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(BUTTON_PIN_prev, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(BUTTON_PIN_next, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(BUTTON_PIN_press, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         GPIO.add_event_detect(BUTTON_PIN_payment, GPIO.FALLING, callback=self.payment_button_callback, bouncetime=3000) #스위치 버튼 콜백 등록
         GPIO.add_event_detect(BUTTON_PIN_total, GPIO.FALLING, callback=self.total_button_callback, bouncetime=3000)
-        GPIO.add_event_detect(BUTTON_PIN_total, GPIO.FALLING, callback=self.clear_button_callback, bouncetime=3000)
+        GPIO.add_event_detect(BUTTON_PIN_clear, GPIO.FALLING, callback=self.clear_button_callback, bouncetime=3000)
+        GPIO.add_event_detect(BUTTON_PIN_prev, GPIO.FALLING, callback=self.focus_previous_menu_button, bouncetime=3000)
+        GPIO.add_event_detect(BUTTON_PIN_next, GPIO.FALLING, callback=self.focus_next_menu_button, bouncetime=3000)
+        GPIO.add_event_detect(BUTTON_PIN_press, GPIO.FALLING, callback=self.press_current_button, bouncetime=3000)
 
         self.Button_menu1.clicked.connect(self.add_to_cart('김밥', 2000))
         self.Button_menu2.clicked.connect(self.add_to_cart('라면', 4000))
@@ -101,7 +109,18 @@ class WindowClass(QMainWindow, main_window_ui):
         self.Total_Button_Function()
     def clear_button_callback(self, channel):
         self.Clear_Button_Function()
+    # 키보드에서 넘어옴
+    def focus_previous_menu_button(self):
+        self.focusNextChild()
 
+    def focus_next_menu_button(self):
+        self.focusPreviousChild()
+
+    def press_current_button(self):
+        """현재 포커스된 버튼을 클릭합니다."""
+        focused_widget = self.focusWidget()
+        if isinstance(focused_widget, QPushButton):
+            focused_widget.click()
 
 class SecondWindow(QDialog, second_window_ui): # 최종 주문창 ui를 불러오는 클래스
     def __init__(self):
