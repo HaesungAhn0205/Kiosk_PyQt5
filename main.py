@@ -19,7 +19,7 @@ class WindowClass(QMainWindow, main_window_ui):
 
         BUTTON_PIN_payment = 17  # GPIO핀 설정
         BUTTON_PIN_total = 18
-        BUTTON_PIN_clear = 22
+        BUTTON_PIN_clear = 27
 
         GPIO.setmode(GPIO.BCM)  # BCM 핀 넘버링
         GPIO.setup(BUTTON_PIN_payment, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # 입력으로 설정, 내부 풀업 저항 사용
