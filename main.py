@@ -98,9 +98,9 @@ class WindowClass(QMainWindow, main_window_ui):
     def payment_button_callback(self, channel):
         self.Payment_Button.click()
     def total_button_callback(self, channel):
-        self.Total_button_Function()
+        self.Total_Button_Function()
     def clear_button_callback(self, channel):
-        self.Clear_button_Function()
+        self.Clear_Button_Function()
 
 
 class SecondWindow(QDialog, second_window_ui): # 최종 주문창 ui를 불러오는 클래스
