@@ -163,12 +163,12 @@ class WindowClass(QMainWindow, main_window_ui):
         # 모든 메뉴 버튼에 스타일 시트를 적용
         for button in self.menu_buttons:
             button.setStyleSheet(button_focus_style)
+
 class SecondWindow(QDialog, second_window_ui): # 최종 주문창 ui를 불러오는 클래스
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("주문 완료")
-
 
 if __name__ == "__main__":
     # suppress_qt_warnings()
