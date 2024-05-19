@@ -24,6 +24,22 @@ class WindowClass(QMainWindow, main_window_ui):
         ]
         self.set_button_styles()
 
+        self.braille_menu = {
+            '김밥': [
+                [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0],
+                [1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1],
+            ],
+            '라면': [
+                [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+            '떡볶이': [
+                [1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0],
+                [1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1],
+                [0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ]
+        }
+
         BUTTON_PIN_payment = 14  # GPIO핀 설정
         BUTTON_PIN_total = 18
         BUTTON_PIN_clear = 15
@@ -31,15 +47,25 @@ class WindowClass(QMainWindow, main_window_ui):
         BUTTON_PIN_next = 22
         BUTTON_PIN_press = 17  # enter key
         BUTTON_PIN_braille = 4  # braille print
+        gpio_map = {
+            'data_pins': [17, 18, 27, 22, 23, 24, 25, 4, 5, 6, 12, 13, 19, 16, 26, 20, 21, 7],  # 데이터 핀 번호 리스트 (18개) (임의 설정)
+            'latch_pin': 8,  # 래치 핀 번호
+            'clock_pin': 9,  # 클럭 핀 번호
+        }
 
         GPIO.setmode(GPIO.BCM)  # BCM 핀 넘버링
-        GPIO.setup(BUTTON_PIN_payment, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # 입력으로 설정, 내부 풀업 저항 사용
+        GPIO.setup(BUTTON_PIN_payment, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # input 설정, 내부 풀업 저항 사용
         GPIO.setup(BUTTON_PIN_total, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(BUTTON_PIN_clear, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(BUTTON_PIN_prev, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(BUTTON_PIN_next, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(BUTTON_PIN_press, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(BUTTON_PIN_braille, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(BUTTON_PIN_braille, GPIO.IN, pull_up_down=GPIO.PUD_UP) # 여기까지 버튼
+
+        for pin in gpio_map['data_pins']:           # output 설정
+            GPIO.setup(pin, GPIO.OUT)
+        GPIO.setup(gpio_map['latch_pin'], GPIO.OUT)
+        GPIO.setup(gpio_map['clock_pin'], GPIO.OUT)
 
         GPIO.add_event_detect(BUTTON_PIN_payment, GPIO.FALLING, callback=self.payment_button_callback, bouncetime=3000) #스위치 버튼 콜백 등록
         GPIO.add_event_detect(BUTTON_PIN_total, GPIO.FALLING, callback=self.total_button_callback, bouncetime=3000)
