@@ -49,8 +49,6 @@ class WindowClass(QMainWindow, main_window_ui):
         GPIO.add_event_detect(BUTTON_PIN_press, GPIO.FALLING, callback=self.press_current_button_callback, bouncetime=300)
         # GPIO.add_event_detect(BUTTON_PIN_braille, GPIO.FALLING, callback=self.braille_output_button_callback, bouncetime=3000)
 
-
-
         self.Button_menu1.clicked.connect(self.add_to_cart('김밥', 2000))
         self.Button_menu2.clicked.connect(self.add_to_cart('라면', 4000))
         self.Button_menu3.clicked.connect(self.add_to_cart('떡볶이', 4000))
@@ -123,13 +121,13 @@ class WindowClass(QMainWindow, main_window_ui):
     def clear_button_callback(self, channel):
         self.Clear_Button_Function()
     # 키보드에서 넘어옴
-    def focus_previous_menu_button(self):
+    def focus_previous_menu_button(self, channel):
         self.focusNextChild()
 
-    def focus_next_menu_button(self):
+    def focus_next_menu_button(self, channel):
         self.focusPreviousChild()
 
-    def press_current_button(self):
+    def press_current_button(self, channel):
         """현재 포커스된 버튼을 클릭합니다."""
         focused_widget = self.focusWidget()
         if isinstance(focused_widget, QPushButton):
@@ -137,6 +135,23 @@ class WindowClass(QMainWindow, main_window_ui):
 
     def braille_output_button_callback(self, channel):
         focused_widget = self.focusWidget()
+        if isinstance(focused_widget, QPushButton):
+            if focused_widget == self.Button_menu1:
+                """김밥 출력"""
+            elif focused_widget == self.Button_menu2:
+                """라면 출력"""
+            elif focused_widget == self.Button_menu3:
+                """떡볶이 출력"""
+            elif focused_widget == self.Button_menu4:
+                """순대 출력"""
+            elif focused_widget == self.Button_menu5:
+                """튀김 출력"""
+            elif focused_widget == self.Button_menu6:
+                """어묵 출력"""
+            elif focused_widget == self.Button_menu7:
+                """콜라 출력"""
+            elif focused_widget == self.Button_menu8:
+                """사이다 출력"""
 
     def set_button_styles(self):
         button_focus_style = """
