@@ -166,9 +166,9 @@ class WindowClass(QMainWindow, main_window_ui):
     def payment_button_callback(self, channel):
         self.Payment_Button.click()
     def total_button_callback(self, channel):
-        self.Total_Button_Function()
+        self.Total_Button_click()
     def clear_button_callback(self, channel):
-        self.Clear_Button_Function()
+        self.Clear_Button_click()
     # 키보드에서 넘어옴
     def focus_previous_menu_button(self, channel):
         self.focusNextChild()
