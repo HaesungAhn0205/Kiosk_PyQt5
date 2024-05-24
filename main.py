@@ -24,22 +24,71 @@ class WindowClass(QMainWindow, main_window_ui):
         ]
         self.set_button_styles()
 
-        BUTTON_PIN_payment = 14  # GPIO핀 설정
+        self.braille_menu = {
+           '김밥': [
+               [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0],
+               [1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+           ],
+           '라면': [
+               [1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1],
+               [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+           ],
+           '떡볶이': [
+               [1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0],
+               [1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1],
+           ],
+           '순대': [
+               [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1],
+               [0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+           ],
+           '튀김': [
+               [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1],
+               [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0],
+           ],
+           '어묵': [
+               [1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
+               [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+           ],
+           '콜라': [
+               [0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1],
+               [1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1],
+           ],
+           '사이다': [
+               [0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1],
+           ]
+        }
+
+        self.setup_gpio()
+        self.connect_buttons()
+
+    def setup_gpio(self):
+        # 버튼 핀 설정
+        BUTTON_PIN_prev = 22
+        BUTTON_PIN_next = 27
+        BUTTON_PIN_press = 17   # enter key
+        BUTTON_PIN_braille = 4  # braille print
         BUTTON_PIN_total = 18
         BUTTON_PIN_clear = 15
-        BUTTON_PIN_prev = 27
-        BUTTON_PIN_next = 22
-        BUTTON_PIN_press = 17  # enter key
-        BUTTON_PIN_braille = 4  # braille print
+        BUTTON_PIN_payment = 14
 
-        GPIO.setmode(GPIO.BCM)  # BCM 핀 넘버링
-        GPIO.setup(BUTTON_PIN_payment, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # 입력으로 설정, 내부 풀업 저항 사용
+        self.solenoid_pins = [
+            26, 19, 13, 6, 5, 11, 9, 10, 21, 20, 16, 12, 7, 8, 25, 24, 3, 2
+        ]
+
+        # BCM 핀 넘버링
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(BUTTON_PIN_payment, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # input 설정, 내부 풀업 저항 사용
         GPIO.setup(BUTTON_PIN_total, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(BUTTON_PIN_clear, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(BUTTON_PIN_prev, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(BUTTON_PIN_next, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(BUTTON_PIN_press, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(BUTTON_PIN_braille, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(BUTTON_PIN_braille, GPIO.IN, pull_up_down=GPIO.PUD_UP) # 여기까지 버튼
+
+        for i in self.solenoid_pins: # 솔레노이드 모터 output setup
+            GPIO.setup(i, GPIO.OUT)
+            GPIO.output(i, GPIO.LOW)
 
         GPIO.add_event_detect(BUTTON_PIN_payment, GPIO.FALLING, callback=self.payment_button_callback, bouncetime=3000) #스위치 버튼 콜백 등록
         GPIO.add_event_detect(BUTTON_PIN_total, GPIO.FALLING, callback=self.total_button_callback, bouncetime=3000)
@@ -47,8 +96,11 @@ class WindowClass(QMainWindow, main_window_ui):
         GPIO.add_event_detect(BUTTON_PIN_prev, GPIO.FALLING, callback=self.focus_previous_menu_button_callback, bouncetime=300)
         GPIO.add_event_detect(BUTTON_PIN_next, GPIO.FALLING, callback=self.focus_next_menu_button_callback, bouncetime=300)
         GPIO.add_event_detect(BUTTON_PIN_press, GPIO.FALLING, callback=self.press_current_button_callback, bouncetime=300)
-        # GPIO.add_event_detect(BUTTON_PIN_braille, GPIO.FALLING, callback=self.braille_output_button_callback, bouncetime=3000)
+        GPIO.add_event_detect(BUTTON_PIN_braille, GPIO.FALLING, callback=self.braille_output_button_callback, bouncetime=3000)
 
+
+
+    def connect_buttons(self):
         self.Button_menu1.clicked.connect(self.add_to_cart('김밥', 2000))
         self.Button_menu2.clicked.connect(self.add_to_cart('라면', 4000))
         self.Button_menu3.clicked.connect(self.add_to_cart('떡볶이', 4000))
@@ -116,10 +168,13 @@ class WindowClass(QMainWindow, main_window_ui):
     #하드웨어 버튼
     def payment_button_callback(self, channel):
         self.Payment_Button.click()
+
     def total_button_callback(self, channel):
-        self.Total_Button_Function()
+        self.Total_Button_click()
+
     def clear_button_callback(self, channel):
-        self.Clear_Button_Function()
+        self.Clear_Button_click()
+
     # 키보드에서 넘어옴
     def focus_previous_menu_button(self, channel):
         self.focusNextChild()
@@ -136,22 +191,42 @@ class WindowClass(QMainWindow, main_window_ui):
     def braille_output_button_callback(self, channel):
         focused_widget = self.focusWidget()
         if isinstance(focused_widget, QPushButton):
+            menu_item = None
             if focused_widget == self.Button_menu1:
-                """김밥 출력"""
+                menu_item = '김밥'
             elif focused_widget == self.Button_menu2:
-                """라면 출력"""
+                menu_item = '라면'
             elif focused_widget == self.Button_menu3:
-                """떡볶이 출력"""
+                menu_item = '떡볶이'
             elif focused_widget == self.Button_menu4:
-                """순대 출력"""
+                menu_item = '순대'
             elif focused_widget == self.Button_menu5:
-                """튀김 출력"""
+                menu_item = '튀김'
             elif focused_widget == self.Button_menu6:
-                """어묵 출력"""
+                menu_item = '어묵'
             elif focused_widget == self.Button_menu7:
-                """콜라 출력"""
+                menu_item = '콜라'
             elif focused_widget == self.Button_menu8:
-                """사이다 출력"""
+                menu_item = '사이다'
+
+            if menu_item:
+                self.print_braille(menu_item)
+
+    def print_braille(self, menu_item):
+        """점자 출력"""
+        braille_data = self.braille_menu[menu_item]
+
+        for char in braille_data:
+            for i, state in enumerate(char):
+                pin = self.solenoid_pins[i]
+                if self.current_solenoid_state[i] != state:  # 현재 솔레노이드 상태를 확인
+                    GPIO.output(pin, GPIO.HIGH if state else GPIO.LOW)
+                    self.current_solenoid_state[i] = state
+            time.sleep(2)  # 각 글자 출력 후 2초 대기
+
+        for pin in self.solenoid_pins:  # 출력 후 모든 솔레노이드를 LOW로 초기화
+            GPIO.output(pin, GPIO.LOW)
+            self.current_solenoid_state[i] = 0
 
     def set_button_styles(self):
         button_focus_style = """
@@ -164,11 +239,17 @@ class WindowClass(QMainWindow, main_window_ui):
         for button in self.menu_buttons:
             button.setStyleSheet(button_focus_style)
 
+
+def cleanup_gpio():
+    GPIO.cleanup()
+
+
 class SecondWindow(QDialog, second_window_ui): # 최종 주문창 ui를 불러오는 클래스
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("주문 완료")
+
 
 if __name__ == "__main__":
     # suppress_qt_warnings()
@@ -178,5 +259,5 @@ if __name__ == "__main__":
     myWindow = WindowClass()
     # 프로그램 화면을 보여주는 코드
     myWindow.show()
-    # 프로그램을 이벤트루프로 진입시키는(프로그램을 작동시키는) 코드
-    app.exec_()
+    app.aboutToQuit.connect(cleanup_gpio)
+    sys.exit(app.exec_())
