@@ -216,10 +216,6 @@ class WindowClass(QMainWindow, main_window_ui):
         """점자 출력"""
         braille_data = self.braille_menu[menu_item]
 
-        for pin in self.solenoid_pins:  # 출력 전 모든 솔레노이드를 LOW로 초기화
-            GPIO.output(pin, GPIO.LOW)
-            time.sleep(1)
-
         for char in braille_data:
             for i, state in enumerate(char):
                 pin = self.solenoid_pins[i]
