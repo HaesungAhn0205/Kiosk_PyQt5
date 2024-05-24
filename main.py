@@ -222,9 +222,15 @@ class WindowClass(QMainWindow, main_window_ui):
 
         for char in braille_data:
             for i, state in enumerate(char):
-                pin = self.solenoid_pins[i]  # 핀 번호를 1부터 시작하도록 조정
-                GPIO.output(pin, GPIO.HIGH if state else GPIO.LOW)
-            time.sleep(2)  # 각 글자 출력 후 잠시 대기
+                pin = self.solenoid_pins[i]
+                if self.current_solenoid_state[i] != state:  # 현재 솔레노이드 상태를 확인
+                    GPIO.output(pin, GPIO.HIGH if state else GPIO.LOW)
+                    self.current_solenoid_state[i] = state
+            time.sleep(2)  # 각 글자 출력 후 2초 대기
+
+        for pin in self.solenoid_pins:  # 출력 후 모든 솔레노이드를 LOW로 초기화
+            GPIO.output(pin, GPIO.LOW)
+            self.current_solenoid_state[i] = 0
 
     def set_button_styles(self):
         button_focus_style = """
