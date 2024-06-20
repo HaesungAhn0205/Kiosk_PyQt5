@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 import RPi.GPIO as GPIO
 import time
-from os import environ
 
 # UI 파일 로드
 main_window_ui, _ = uic.loadUiType("Kiosk_draft.ui")
