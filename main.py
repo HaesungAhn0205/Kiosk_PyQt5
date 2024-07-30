@@ -93,10 +93,10 @@ class WindowClass(QMainWindow, main_window_ui):
         GPIO.add_event_detect(BUTTON_PIN_payment, GPIO.FALLING, callback=self.payment_button_callback, bouncetime=3000) #스위치 버튼 콜백 등록
         GPIO.add_event_detect(BUTTON_PIN_total, GPIO.FALLING, callback=self.total_button_callback, bouncetime=3000)
         GPIO.add_event_detect(BUTTON_PIN_clear, GPIO.FALLING, callback=self.clear_button_callback, bouncetime=3000)
-        GPIO.add_event_detect(BUTTON_PIN_prev, GPIO.FALLING, callback=self.focus_previous_menu_button_callback, bouncetime=300)
-        GPIO.add_event_detect(BUTTON_PIN_next, GPIO.FALLING, callback=self.focus_next_menu_button_callback, bouncetime=300)
-        GPIO.add_event_detect(BUTTON_PIN_press, GPIO.FALLING, callback=self.press_current_button_callback, bouncetime=300)
-        GPIO.add_event_detect(BUTTON_PIN_braille, GPIO.FALLING, callback=self.braille_output_button_callback, bouncetime=3000)
+        GPIO.add_event_detect(BUTTON_PIN_prev, GPIO.FALLING, callback=self.focus_previous_menu_button, bouncetime=300)
+        GPIO.add_event_detect(BUTTON_PIN_next, GPIO.FALLING, callback=self.focus_next_menu_button, bouncetime=300)
+        GPIO.add_event_detect(BUTTON_PIN_press, GPIO.FALLING, callback=self.press_current_button, bouncetime=300)
+        GPIO.add_event_detect(BUTTON_PIN_braille, GPIO.FALLING, callback=self.braille_output_button, bouncetime=3000)
 
 
 
@@ -170,10 +170,10 @@ class WindowClass(QMainWindow, main_window_ui):
         self.Payment_Button.click()
 
     def total_button_callback(self, channel):
-        self.Total_Button_click()
+        self.Total_Button.click()
 
     def clear_button_callback(self, channel):
-        self.Clear_Button_click()
+        self.Clear_Button.click()
 
     # 키보드에서 넘어옴
     def focus_previous_menu_button(self, channel):
@@ -188,7 +188,7 @@ class WindowClass(QMainWindow, main_window_ui):
         if isinstance(focused_widget, QPushButton):
             focused_widget.click()
 
-    def braille_output_button_callback(self, channel):
+    def braille_output_button(self, channel):
         focused_widget = self.focusWidget()
         if isinstance(focused_widget, QPushButton):
             menu_item = None
