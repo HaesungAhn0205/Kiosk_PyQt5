@@ -1,8 +1,10 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 import time
+from os import environ
+import pyttsx3
 
 # UI 파일 로드
 main_window_ui, _ = uic.loadUiType("Kiosk_draft.ui")
@@ -14,51 +16,54 @@ class WindowClass(QMainWindow, main_window_ui):
         super().__init__()
         self.setupUi(self)
 
-        self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000, '튀김': 4000, '어묵': 1000, '콜라': 1500, '사이다': 1500}
+        self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000,
+                     '튀김': 4000, '어묵': 1000, '콜라': 1500, '사이다': 1500}
 
         self.menu_buttons = [
             self.Button_menu1, self.Button_menu2, self.Button_menu3,
             self.Button_menu4, self.Button_menu5, self.Button_menu6,
             self.Button_menu7, self.Button_menu8
         ]
-        self.set_button_styles()
+        #self.set_button_styles()
 
         self.braille_menu = {
-           '김밥': [
-               [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0],
-               [1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           ],
-           '라면': [
-               [1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1],
-               [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           ],
-           '떡볶이': [
-               [1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0],
-               [1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1],
-           ],
-           '순대': [
-               [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1],
-               [0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           ],
-           '튀김': [
-               [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1],
-               [1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0],
-           ],
-           '어묵': [
-               [1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
-               [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-           ],
-           '콜라': [
-               [0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1],
-               [1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1],
-           ],
-           '사이다': [
-               [0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1],
-           ]
-        }
+            '김밥': [
+        [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1],
+        [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+            '라면': [
+        [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
+        [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+            '떡볶이': [
+        [0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1],
+        [0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0],
+            ],
+            '순대': [
+        [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+        [1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+            '튀김': [
+        [1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0],
+        [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1],
+            ],
+            '어묵': [
+        [0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+            '콜라': [
+        [1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+            ],
+            '사이다': [
+        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0],
+            ]
+                            }
 
         self.setup_gpio()
         self.connect_buttons()
+
+        self.engine = pyttsx3.init()
 
     def setup_gpio(self):
         # 버튼 핀 설정
@@ -97,7 +102,12 @@ class WindowClass(QMainWindow, main_window_ui):
         GPIO.add_event_detect(BUTTON_PIN_press, GPIO.FALLING, callback=self.press_current_button, bouncetime=300)
         GPIO.add_event_detect(BUTTON_PIN_braille, GPIO.FALLING, callback=self.braille_output_button, bouncetime=3000)
 
-
+        # 초음파 센서 초기화
+        TRIG_PIN = 23
+        ECHO_PIN = 24
+        GPIO.setup(self.TRIG_PIN, GPIO.OUT)
+        GPIO.setup(self.ECHO_PIN, GPIO.IN)
+        self.start_ultrasonic_thread()
 
     def connect_buttons(self):
         self.Button_menu1.clicked.connect(self.add_to_cart('김밥', 2000))
@@ -223,7 +233,7 @@ class WindowClass(QMainWindow, main_window_ui):
                     self.current_solenoid_state[i] = state
             time.sleep(2)  # 각 글자 출력 후 2초 대기
 
-        for pin in self.solenoid_pins:  # 출력 후 모든 솔레노이드를 LOW로 초기화
+        for pin in enumerate(self.solenoid_pins):  # 출력 후 모든 솔레노이드를 LOW로 초기화
             GPIO.output(pin, GPIO.LOW)
             self.current_solenoid_state[i] = 0
 
@@ -238,6 +248,45 @@ class WindowClass(QMainWindow, main_window_ui):
         for button in self.menu_buttons:
             button.setStyleSheet(button_focus_style)
 
+    def start_ultrasonic_thread(self):
+        import threading
+        ultrasonic_thread = threading.Thread(target=self.ultrasonic_detection)
+        ultrasonic_thread.daemon = True
+        ultrasonic_thread.start()
+
+    def ultrasonic_detection(self):
+        detected = False  # 물체 감지를 추적하는 변수
+        while True:
+            distance = self.measure_distance()
+            if distance < 50 and not detected:  # 50cm 이내에 물체가 감지되고 이전에 감지되지 않은 경우
+                detected = True
+                self.play_voice_announcement("환영합니다. 무엇을 도와드릴까요?")
+            elif distance >= 50 and detected:
+                detected = False  # 물체가 감지 범위를 벗어나면 다시 음성 안내를 할 수 있도록 설정
+            time.sleep(0.5)  # 반복 간격
+
+    def measure_distance(self):
+        GPIO.output(self.TRIG_PIN, GPIO.LOW)
+        time.sleep(0.1)
+        GPIO.output(self.TRIG_PIN, GPIO.HIGH)
+        time.sleep(0.00001)
+        GPIO.output(self.TRIG_PIN, GPIO.LOW)
+
+        while GPIO.input(self.ECHO_PIN) == 0:
+            pulse_start = time.time()
+
+        while GPIO.input(self.ECHO_PIN) == 1:
+            pulse_end = time.time()
+
+        pulse_duration = pulse_end - pulse_start
+        distance = pulse_duration * 17150
+        distance = round(distance, 2)
+
+        return distance
+
+    def play_voice_announcement(self, message):
+        self.engine.say(message)
+        self.engine.runAndWait()
 
 def cleanup_gpio():
     GPIO.cleanup()
@@ -258,5 +307,5 @@ if __name__ == "__main__":
     myWindow = WindowClass()
     # 프로그램 화면을 보여주는 코드
     myWindow.show()
-    app.aboutToQuit.connect(cleanup_gpio)
+    # app.aboutToQuit.connect(cleanup_gpio)
     sys.exit(app.exec_())
