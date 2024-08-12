@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 from os import environ
 import pyttsx3
@@ -62,7 +62,7 @@ class WindowClass(QMainWindow, main_window_ui):
 
         self.setup_gpio()
         self.connect_buttons()
-
+        # tts 엔진 활성화
         self.engine = pyttsx3.init()
 
     def setup_gpio(self):
@@ -102,11 +102,11 @@ class WindowClass(QMainWindow, main_window_ui):
         GPIO.add_event_detect(BUTTON_PIN_press, GPIO.FALLING, callback=self.press_current_button, bouncetime=300)
         GPIO.add_event_detect(BUTTON_PIN_braille, GPIO.FALLING, callback=self.braille_output_button, bouncetime=3000)
 
-        # 초음파 센서 초기화
+        # 초음파 센서 감지
         TRIG_PIN = 23
         ECHO_PIN = 24
-        GPIO.setup(self.TRIG_PIN, GPIO.OUT)
-        GPIO.setup(self.ECHO_PIN, GPIO.IN)
+        GPIO.setup(TRIG_PIN, GPIO.OUT)
+        GPIO.setup(ECHO_PIN, GPIO.IN)
         self.start_ultrasonic_thread()
 
     def connect_buttons(self):
@@ -263,6 +263,7 @@ class WindowClass(QMainWindow, main_window_ui):
                 self.play_voice_announcement("환영합니다. 무엇을 도와드릴까요?")
             elif distance >= 50 and detected:
                 detected = False  # 물체가 감지 범위를 벗어나면 다시 음성 안내를 할 수 있도록 설정
+                self.play_voice_announcement("키오스크 앞으로 다시 와주세요.")
             time.sleep(0.5)  # 반복 간격
 
     def measure_distance(self):
