@@ -2,6 +2,8 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
+import time
+import pyttsx3
 from os import environ
 
 # UI 파일 로드
@@ -83,6 +85,7 @@ class WindowClass(QMainWindow, main_window_ui):
     def open_payment_window(self):
         """결제 창 열기"""
         payment_window = SecondWindow()
+        self.play_voice_announcement("주문이 완료되었습니다.")
         payment_window.exec()
 
     def keyPressEvent(self, e):
@@ -111,6 +114,14 @@ class WindowClass(QMainWindow, main_window_ui):
         focused_widget = self.focusWidget()
         if isinstance(focused_widget, QPushButton):
             focused_widget.click()
+
+    def play_voice_announcement(self, message):
+        self.engine.setProperty('rate', 150)
+        self.engine.setProperty('volume', 0.9)
+
+        self.engine.say(message)
+        self.engine.runAndWait()
+
 class SecondWindow(QDialog, second_window_ui): # 최종 주문창 ui를 불러오는 클래스
     def __init__(self):
         super().__init__()
