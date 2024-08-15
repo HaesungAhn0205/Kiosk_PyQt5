@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QTimer
 from PyQt5 import uic
 import time
 import pyttsx3
@@ -15,6 +16,9 @@ class WindowClass(QMainWindow, main_window_ui):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        self.engine = pyttsx3.init()
+        QTimer.singleShot(100, self.welcome_message)
 
         self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000, '튀김': 4000, '어묵': 1000, '콜라': 1500, '사이다': 1500}
 
@@ -85,7 +89,7 @@ class WindowClass(QMainWindow, main_window_ui):
     def open_payment_window(self):
         """결제 창 열기"""
         payment_window = SecondWindow()
-        self.play_voice_announcement("주문이 완료되었습니다.")
+        ##self.play_voice_announcement("주문이 완료되었습니다.")
         payment_window.exec()
 
     def keyPressEvent(self, e):
@@ -121,6 +125,10 @@ class WindowClass(QMainWindow, main_window_ui):
 
         self.engine.say(message)
         self.engine.runAndWait()
+
+    def welcome_message(self):
+        """프로그램 시작 시 환영 음성 출력"""
+        self.play_voice_announcement("환영합니다! 주문을 시작해 주세요.")
 
 class SecondWindow(QDialog, second_window_ui): # 최종 주문창 ui를 불러오는 클래스
     def __init__(self):
