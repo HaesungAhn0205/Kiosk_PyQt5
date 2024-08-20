@@ -3,7 +3,7 @@ import pyttsx3
 # 음성 출력을 위한 함수 정의
 def play_voice_announcement(text):
     # pyttsx3 엔진 초기화
-    engine = pyttsx3.init()
+    engine = pyttsx3.init(driverName='espeak')
 
     # 속도와 볼륨 설정 (필요에 따라 조정 가능)
     engine.setProperty('rate', 150)
@@ -16,4 +16,4 @@ def play_voice_announcement(text):
     engine.runAndWait()
 
 # 함수 사용 예시
-play_voice_announcement("Attention please. The train is arriving at the station.")
+play_voice_announcement("환영합니다.")
