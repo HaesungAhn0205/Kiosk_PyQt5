@@ -18,7 +18,9 @@ class WindowClass(QMainWindow, main_window_ui):
         self.setupUi(self)
 
         self.engine = pyttsx3.init(driverName='espeak')
-        QTimer.singleShot(100, self.welcome_message)
+
+        self.TRIG_PIN = 1
+        self.ECHO_PIN = 0
 
         self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000,
                      '튀김': 4000, '어묵': 1000, '콜라': 1500, '사이다': 1500}
@@ -28,7 +30,6 @@ class WindowClass(QMainWindow, main_window_ui):
             self.Button_menu4, self.Button_menu5, self.Button_menu6,
             self.Button_menu7, self.Button_menu8
         ]
-        #self.set_button_styles()
 
         self.braille_menu = {
             '김밥': [
@@ -66,9 +67,7 @@ class WindowClass(QMainWindow, main_window_ui):
 
         self.setup_gpio()
         self.connect_buttons()
-        # tts 엔진 활성화
-
-
+        self.start_ultrasonic_thread()
     def setup_gpio(self):
         # 버튼 핀 설정
         BUTTON_PIN_prev = 22
@@ -106,12 +105,8 @@ class WindowClass(QMainWindow, main_window_ui):
         GPIO.add_event_detect(BUTTON_PIN_press, GPIO.FALLING, callback=self.press_current_button, bouncetime=300)
         GPIO.add_event_detect(BUTTON_PIN_braille, GPIO.FALLING, callback=self.braille_output_button, bouncetime=3000)
 
-        # 초음파 센서 감지
-        TRIG_PIN = 1
-        ECHO_PIN = 0
-        GPIO.setup(TRIG_PIN, GPIO.OUT)
-        GPIO.setup(ECHO_PIN, GPIO.IN)
-        self.start_ultrasonic_thread()
+        GPIO.setup(self.TRIG_PIN, GPIO.OUT)
+        GPIO.setup(self.ECHO_PIN, GPIO.IN)
 
     def connect_buttons(self):
         self.Button_menu1.clicked.connect(self.add_to_cart('김밥', 2000))
@@ -264,11 +259,13 @@ class WindowClass(QMainWindow, main_window_ui):
             distance = self.measure_distance()
             if distance < 50 and not detected:  # 50cm 이내에 물체가 감지되고 이전에 감지되지 않은 경우
                 detected = True
-                self.play_voice_announcement("환영합니다. 무엇을 도와드릴까요?")
+                self.play_voice_announcement_detected("환영합니다. 무엇을 도와드릴까요?")
+            else:
+                detected = False
             # elif distance >= 50 and detected:
             #     detected = False  # 물체가 감지 범위를 벗어나면 다시 음성 안내를 할 수 있도록 설정
             #     self.play_voice_announcement("키오스크 앞으로 다시 와주세요.")
-            time.sleep(0.5)  # 반복 간격
+            time.sleep(1)  # 반복 간격
 
     def measure_distance(self):
         GPIO.output(self.TRIG_PIN, True)
@@ -289,9 +286,9 @@ class WindowClass(QMainWindow, main_window_ui):
 
         return distance
 
-    # def play_voice_announcement(self, message):
-    #     self.engine.say(message)
-    #     self.engine.runAndWait()
+    def play_voice_announcement_detected(self, message):
+        self.engine.say(message)
+        self.engine.runAndWait()
 
     def play_voice_announcement(self, message):
         """음성 안내를 재생합니다."""
