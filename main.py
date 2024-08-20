@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5 import uic
 import RPi.GPIO as GPIO
 import time
@@ -15,6 +16,9 @@ class WindowClass(QMainWindow, main_window_ui):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        self.engine = pyttsx3.init(driverName='espeak')
+        QTimer.singleShot(100, self.welcome_message)
 
         self.menu = {'김밥': 2000, '라면': 4000, '떡볶이': 4000, '순대': 3000,
                      '튀김': 4000, '어묵': 1000, '콜라': 1500, '사이다': 1500}
@@ -63,7 +67,7 @@ class WindowClass(QMainWindow, main_window_ui):
         self.setup_gpio()
         self.connect_buttons()
         # tts 엔진 활성화
-        self.engine = pyttsx3.init(driverName='espeak')
+
 
     def setup_gpio(self):
         # 버튼 핀 설정
@@ -267,11 +271,11 @@ class WindowClass(QMainWindow, main_window_ui):
             time.sleep(0.5)  # 반복 간격
 
     def measure_distance(self):
-        GPIO.output(self.TRIG_PIN, GPIO.LOW)
+        GPIO.output(self.TRIG_PIN, True)
         time.sleep(0.1)
-        GPIO.output(self.TRIG_PIN, GPIO.HIGH)
+        GPIO.output(self.TRIG_PIN, False)
         time.sleep(0.00001)
-        GPIO.output(self.TRIG_PIN, GPIO.LOW)
+        GPIO.output(self.TRIG_PIN, False)
 
         while GPIO.input(self.ECHO_PIN) == 0:
             pulse_start = time.time()
@@ -285,10 +289,20 @@ class WindowClass(QMainWindow, main_window_ui):
 
         return distance
 
+    # def play_voice_announcement(self, message):
+    #     self.engine.say(message)
+    #     self.engine.runAndWait()
+
     def play_voice_announcement(self, message):
+        """음성 안내를 재생합니다."""
+        self.engine.setProperty('rate', 150)
+        self.engine.setProperty('volume', 0.9)
         self.engine.say(message)
         self.engine.runAndWait()
 
+    def welcome_message(self):
+        """프로그램 시작 시 환영 음성 출력"""
+        self.play_voice_announcement("환영합니다! 주문을 시작해 주세요.")
 def cleanup_gpio():
     GPIO.cleanup()
 
