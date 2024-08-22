@@ -50,7 +50,7 @@
     </font>
    </property>
    <property name="text">
-    <string>주문을 완료했습니다.</string>
+    <string>주문 완료</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
