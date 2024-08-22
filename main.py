@@ -30,6 +30,8 @@ class WindowClass(QMainWindow, main_window_ui):
             self.Button_menu7, self.Button_menu8
         ]
 
+        self.set_button_styles()
+
         self.braille_menu = {
             '김밥': [
         [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1],
@@ -67,6 +69,7 @@ class WindowClass(QMainWindow, main_window_ui):
         self.setup_gpio()
         self.connect_buttons()
         self.start_ultrasonic_thread()
+
     def setup_gpio(self):
         # 버튼 핀 설정
         BUTTON_PIN_prev = 22
