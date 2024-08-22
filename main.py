@@ -262,7 +262,9 @@ class WindowClass(QMainWindow, main_window_ui):
                 if not detected:
                     detected = True
                     if not announcement_made:
-                        self.play_voice_announcement_detected("환영합니다. 무엇을 도와드릴까요?")
+                        self.play_voice_announcement_detected("환영합니다. 왼쪽 네개의 버튼은 차례대로 좌우 이동, 메뉴 추가, 점자 출력입니다."
+                                                              "오른쪽 세개의 버튼은 차례대로 장바구니 합산, 장바구니 초기화, 최종 주문입니다."
+                                                              "점자는 버튼 판 오른쪽 열여덟개의 점으로 한글자씩 출력됩니다 ")
                         announcement_made = True
             else:
                 detected = False
