@@ -1,6 +1,5 @@
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QTimer
 from PyQt5 import uic
 import RPi.GPIO as GPIO
 import time
@@ -255,16 +254,19 @@ class WindowClass(QMainWindow, main_window_ui):
 
     def ultrasonic_detection(self):
         detected = False  # 물체 감지를 추적하는 변수
+        announcement_made = False
+
         while True:
             distance = self.measure_distance()
-            if distance < 50 and not detected:  # 50cm 이내에 물체가 감지되고 이전에 감지되지 않은 경우
-                detected = True
-                self.play_voice_announcement_detected("환영합니다. 무엇을 도와드릴까요?")
+            if distance < 50:  # 50cm 이내에 물체가 감지되고 이전에 감지되지 않은 경우
+                if not detected:
+                    detected = True
+                    if not announcement_made:
+                        self.play_voice_announcement_detected("환영합니다. 무엇을 도와드릴까요?")
+                        announcement_made = True
             else:
                 detected = False
-            # elif distance >= 50 and detected:
-            #     detected = False  # 물체가 감지 범위를 벗어나면 다시 음성 안내를 할 수 있도록 설정
-            #     self.play_voice_announcement("키오스크 앞으로 다시 와주세요.")
+
             time.sleep(1)  # 반복 간격
 
     def measure_distance(self):
@@ -287,29 +289,19 @@ class WindowClass(QMainWindow, main_window_ui):
         return distance
 
     def play_voice_announcement_detected(self, message):
-        self.engine.say(message)
-        self.engine.runAndWait()
-
-    def play_voice_announcement(self, message):
-        """음성 안내를 재생합니다."""
         self.engine.setProperty('rate', 150)
         self.engine.setProperty('volume', 0.9)
         self.engine.say(message)
         self.engine.runAndWait()
 
-    def welcome_message(self):
-        """프로그램 시작 시 환영 음성 출력"""
-        self.play_voice_announcement("환영합니다! 주문을 시작해 주세요.")
 def cleanup_gpio():
     GPIO.cleanup()
-
 
 class SecondWindow(QDialog, second_window_ui): # 최종 주문창 ui를 불러오는 클래스
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("주문 완료")
-
 
 if __name__ == "__main__":
     # suppress_qt_warnings()
