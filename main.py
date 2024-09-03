@@ -65,6 +65,11 @@ class WindowClass(QMainWindow, main_window_ui):
         [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0],
             ]
                             }
+        self.solenoid_pins = [
+            26, 19, 13, 6, 5, 11, 9, 10, 21, 20, 16, 12, 7, 8, 25, 24, 3, 2
+        ]
+
+        self.current_solenoid_state = [0] * len(self.solenoid_pins)  # 현재 솔레노이드 상태 초기화
 
         self.setup_gpio()
         self.connect_buttons()
@@ -80,9 +85,6 @@ class WindowClass(QMainWindow, main_window_ui):
         BUTTON_PIN_clear = 15
         BUTTON_PIN_payment = 14
 
-        self.solenoid_pins = [
-            26, 19, 13, 6, 5, 11, 9, 10, 21, 20, 16, 12, 7, 8, 25, 24, 3, 2
-        ]
 
         # BCM 핀 넘버링
         GPIO.setwarnings(False)
@@ -187,10 +189,10 @@ class WindowClass(QMainWindow, main_window_ui):
 
     # 키보드에서 넘어옴
     def focus_previous_menu_button(self, channel):
-        self.focusNextChild()
+        self.focusPreviousChild()
 
     def focus_next_menu_button(self, channel):
-        self.focusPreviousChild()
+        self.focusNextChild()
 
     def press_current_button(self, channel):
         """현재 포커스된 버튼을 클릭합니다."""
